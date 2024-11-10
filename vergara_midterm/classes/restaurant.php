@@ -2,7 +2,7 @@
 
 include('order.php');
 
-class Restaurants extends Orders{
+class Restaurants{
     function order_item(){
         echo 1;
     }

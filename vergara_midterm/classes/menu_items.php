@@ -11,7 +11,7 @@ class MenuItems{
     }
 
     function viewMenu(){
-        $menu_items = $this->db->query('SELECT * FROM menu WHERE 1')->fetchAll();
+        $menu_items = $this->db->query('SELECT * FROM menu WHERE 1')->fetch_all(MYSQLI_ASSOC);
         return $menu_items;
     }
 

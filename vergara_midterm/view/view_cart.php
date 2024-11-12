@@ -54,17 +54,33 @@ $userId = $_GET['id'];
                             <?php
                         $itemz = new Cart();
                         $ordered_items = $itemz->viewCart($orderId);
+                        
 
                         if (empty($ordered_items)) {
                             echo '<tr><td colspan="3">Your cart is empty.</td></tr>';
                         } else{
                             foreach($ordered_items as $key => $value){
+                                
                                 $itemTotal = $value['price'] * $value['quantity'];
                                 echo '<tr> <td>' . $value['quantity'] . ' x ' . $value['price']. '</td> 
                                 <td> ' . $value['name'] . '</td> 
                                 <td> ' . $itemTotal  . '</td>
-                                <td> <button class="btn btn-danger"> Remove </button></tr>';
+                                 <form method="POST"> 
+                                <input type=""hidden style="display:none;" name="cartid" value="'. $value['cart_id'] .'" >
+                                
+                                <td> <button type="submit" name="remove" class="btn btn-danger"> Remove </button> </td> 
+                                </form>
+                                
+                                </tr>';
                             }
+                        }
+
+                        if(isset($_POST['remove'])){
+                            $cartid = $_POST['cartid'];
+
+                            $itemz->removeItem($cartid);
+                            header("Location: /vergara_midterm/view/view_cart.php?user=$user&id=$userId&orderid=$orderId");
+                            exit;
                         }
                         
                         ?>

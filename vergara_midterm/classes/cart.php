@@ -28,5 +28,10 @@ class Cart {
         }
         return $totalamount;
     }
+
+    function removeItem($cartid){
+        $cart2 = $this->db->query("DELETE FROM `cart` where cart_id = $cartid");
+        return $cart2;
+    }
 }
 ?>

@@ -1,13 +1,21 @@
 <?php 
 
+require_once('connection.php');
+$GLOBALS['connection'] = $connection;
+
 class DeliveryMode{
     protected $deliveryTime;
     protected $deliveryfee;
+    protected $db;
 
-    public function __construct($deliveryTime, $deliveryfee){
+    function __construct($deliveryTime, $deliveryFee)
+    {
+        $this->deliveryfee = $deliveryFee;
         $this->deliveryTime = $deliveryTime;
-        $this->deliveryfee = $deliveryfee;
+        $this->db = $GLOBALS['connection'];
     }
+
+
 }
 
 class DeliveryVehicle extends DeliveryMode{
@@ -26,6 +34,14 @@ class DeliveryVehicle extends DeliveryMode{
         return $this->deliveryfee;
     }
 
+
+
+    public function selectDeliveryMethod($deliverymethod, $orderId){
+        
+        $deli = $this->db->query("UPDATE `orders` set `deliverymode` = '$deliverymethod' where order_id = $orderId");
+        return $deli;
+    }
+
 }
 
 class BikeDelivery extends DeliveryMode {
@@ -42,5 +58,11 @@ class BikeDelivery extends DeliveryMode {
     function getFee(){
         return $this->deliveryfee;
     }
+
+    public function selectDeliveryMethod($deliverymethod, $orderId){
+        $deli = $this->db->query("UPDATE `orders` set `deliverymode` = '$deliverymethod' where order_id = $orderId");
+        return $deli;
+    }
+
 }
 ?>

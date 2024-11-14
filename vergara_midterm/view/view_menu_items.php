@@ -6,6 +6,7 @@
  $order_id = $_GET['orderid'];
  $user = $_GET['user'];
  $userId = $_GET['id'];
+ 
 
  if (isset($_POST['addToCart'])){
     if ($_POST['quantity'] > 0){
@@ -13,17 +14,23 @@
         $item_price = $_POST['item_price'];
         $quantity = $_POST['quantity'];
 
-        $addquery = $connection->query("INSERT INTO `cart`(`order_id`,`name`, `quantity`, `price`) VALUES ('$order_id','$item_name','$quantity','$item_price')");
+        $cart = new Cart();
+        $cart->addToDb($order_id, $item_name, $quantity,$item_price);
+        // $alertMessage = "Item added to cart!";
+        
+        header("Location: /vergara_midterm/view/view_menu_items.php?user=$user&id=$userId&orderid=$order_id");
+        exit;
     } else {
         echo '<script>alert("Quantity cannot be zero.");</script>';
     }
     
  }
-
         if (isset($_POST['view_cart'])){
             header("Location: /vergara_midterm/view/view_cart.php?user=$user&id=$userId&orderid=$order_id");
             exit;
         }
+        
+
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +46,7 @@
         *{
             margin: 0;
             padding: 0;
+            /* border: 1px solid red; */
         }
 
         body{
@@ -47,9 +55,17 @@
         .header{
             color:white;
             display:flex;
-            justify-content: space-between;
-            background-color: black;
-           padding: 2rem;
+            justify-content:space-between;
+            background-color: #2f4f4f;
+           padding-top: 2rem;
+           padding-bottom: 2rem;
+           padding-left: 4rem;
+           padding-right: 4rem;
+        }
+
+        .header2{
+            display:flex;
+            gap: 20px;
         }
 
         .container{
@@ -128,23 +144,33 @@
             font-weight: bolder;
         }
 
+        #icon{
+            height:45px;
+            width:105px;
+        }
+        #menu{
+            font-size: 26pt;
+        }
+
         
 
 
     </style>
 </head>
-<body class="">
+<body>
 <div class="header">
-        <p>My Resto</p>
+        <img src="../img/icon-removebg-preview.png" id="icon" alt="Icon">
+
+
         <form method="POST">
         <!-- <button type="submit" name="view_cart" id="viewcart">CART</button> -->
         <button type="submit" name="view_cart" style="background: none; border: none; cursor: pointer;">
             <i class="fas fa-shopping-cart" style="font-size: 30px; color: red;"></i>
         </button>
     </form>
-    </div>
+</div>
 
-    <h2>Our Menu</h2>
+    <h2 id="menu">Our Menu</h2>
 
     <div class="container">
         <div class="row">
@@ -174,11 +200,20 @@
                 ?>
             </div>
         </div>
+
+
     </div>
 
 </body>
 
 <script>
-
+    document.addEventListener('DOMContentLoaded', function() {
+        const closeButton = document.querySelector('.alertClose');
+        
+        closeButton.addEventListener('click', function() {
+            const alert = this.closest('.alert');
+            alert.style.display = 'none';
+        });
+    });
 </script>
 </html>

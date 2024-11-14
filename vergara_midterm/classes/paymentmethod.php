@@ -55,5 +55,3 @@ class CashOnDelivery extends PaymentMethod{
 }
 
 ?>
-
-?>

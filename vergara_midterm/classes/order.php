@@ -17,14 +17,27 @@ class Order{
         return $order;
     }
 
-    function setOrderDetails($orderid, $first_name, $last_name, $contact_num, $address){
-        $details = $this->konek->query("UPDATE `orders` SET `first_name`='$first_name',`last_name`='$last_name',`contact_num`='$contact_num',`address`='$address' WHERE order_id = $orderid");
+    function setOrderDetails($orderid, $first_name, $last_name, $contact_num, $address, $paymentMethod){
+        $details = $this->konek->query("UPDATE `orders` SET `first_name`='$first_name',`last_name`='$last_name',`contact_num`='$contact_num',`address`='$address', paymentmethod = '$paymentMethod' WHERE order_id = $orderid");
         return $details;
     }
 
     function getTotalAmount($orderid){
         $tot = $this->konek->query("SELECT `totalamount` FROM `orders` WHERE order_id = $orderid ");
         return $tot;
+    }
+
+    function addfeetototal($orderid, $fee){
+        $q = $this->konek->query("SELECT totalamount from `orders` where order_id = '$orderid'");
+        while ($item = mysqli_fetch_assoc($q)){
+            $finalamount = $item['totalamount'] + $fee;
+        }
+        return $finalamount;
+    }
+
+    function getSummary($orderid){
+        $sum = $this->konek->query("SELECT * from `orders` where order_id = '$orderid'")->fetch_all(MYSQLI_ASSOC);
+        return $sum;
     }
 
 

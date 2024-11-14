@@ -1,0 +1,10 @@
+        <div class="header2">
+            <input type="checkbox" class="alertCheckbox" autocomplete="off" />
+            <?php if (!empty($alertMessage)): ?>
+        <div class="alert info" style="display:block;"> <!-- Show alert if there is a message -->
+            <span class="alertClose">X</span>
+            <span class="alertText">
+                <?php echo $alertMessage; ?>
+            </span>
+        </div>
+        <?php endif; ?>

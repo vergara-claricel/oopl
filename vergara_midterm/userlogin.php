@@ -103,7 +103,7 @@ form {
 }
 
 .headerbg{
-    background: black;
+    background: #2f4f4f;
     padding: 8px 0;
     text-align: center;
 }
@@ -113,7 +113,7 @@ form {
   font-style: italic; */
   display: inline-block;
   margin: 0 auto; /* Center horizontally, with margin on the bottom */
-  background: black;
+
   padding: 5px 0;
   height:80px;
   width:110;
